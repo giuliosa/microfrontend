@@ -6,13 +6,6 @@ registerApplication({
 	activeWhen: ['/'],
 });
 
-registerApplication({
-	name: '@home-hub/testinho',
-	app: () => System.import<LifeCycles>('@home-hub/testinho'),
-	activeWhen: ['/teste'],
-});
-
-
 start({
   urlRerouteOnly: true,
 });
