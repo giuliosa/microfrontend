@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microfrontend com Web Components</title>
+    <script src="mf1.js" defer></script>
+    <script src="mf2.js" defer></script>
+</head>
+<body>
+    <h1>Aplicação Container</h1>
+    
+    <input type="text" id="mensagemInput" placeholder="Digite uma mensagem">
+    <button onclick="enviarMensagem('mf1')">Enviar para MF1</button>
+    <button onclick="enviarMensagem('mf2')">Enviar para MF2</button>
+
+    <mf1-component></mf1-component>
+    <mf2-component></mf2-component>
+
+    <h2>Mensagens Recebidas</h2>
+    <div id="mensagens-container"></div>
+
+    <script>
+        function enviarMensagem(destino) {
+            const mensagem = document.getElementById("mensagemInput").value;
+            if (!mensagem) return;
+
+            const evento = new CustomEvent("mensagem-enviada", {
+                detail: { mensagem }
+            });
+
+            document.querySelector(`${destino}-component`).dispatchEvent(evento);
+        }
+
+        document.addEventListener("mensagem-recebida", (event) => {
+            const mensagensContainer = document.getElementById("mensagens-container");
+            const novaMensagem = document.createElement("p");
+            novaMensagem.textContent = "Mensagem recebida de " + event.detail.origem + ": " + event.detail.mensagem;
+            mensagensContainer.appendChild(novaMensagem);
+        });
+    </script>
+</body>
+</html>

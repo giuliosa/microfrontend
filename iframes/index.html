@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microfrontend com Iframes</title>
+    <style>
+        iframe {
+            width: 48%;
+            height: 300px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Aplicação Container</h1>    
+    
+
+    <iframe src="mf1.html" id="iframe-mf1"></iframe>
+    <iframe src="mf2.html" id="iframe-mf2"></iframe>
+
+    <h2>Mensagens Recebidas</h2>
+    <div id="mensagens-container"></div>
+
+    <input type="text" id="mensagemInput" placeholder="Digite uma mensagem">
+    <button onclick="enviarMensagem('mf1')">Enviar para MF1</button>
+    <button onclick="enviarMensagem('mf2')">Enviar para MF2</button>
+
+    <script>
+        function enviarMensagem(destino) {
+            const mensagem = document.getElementById("mensagemInput").value;
+            if (!mensagem) return;
+
+            const iframe = document.getElementById(`iframe-${destino}`);
+            iframe.contentWindow.postMessage(mensagem, "*");
+        }
+
+        window.addEventListener("message", (event) => {
+            const mensagensContainer = document.getElementById("mensagens-container");
+            const novaMensagem = document.createElement("p");
+            novaMensagem.textContent = "Mensagem recebida: " + event.data;
+            mensagensContainer.appendChild(novaMensagem);
+        });
+    </script>
+
+    
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microfrontend 1</title>
+</head>
+<body>
+    <h2>Microfrontend 1</h2>
+    <p>Conteúdo do MF1</p>
+    <div id="mensagens-mf1"></div>
+
+    <script>
+        window.addEventListener("message", (event) => {
+            const mensagensDiv = document.getElementById("mensagens-mf1");
+            const novaMensagem = document.createElement("p");
+            novaMensagem.textContent = "Recebido: " + event.data;
+            mensagensDiv.appendChild(novaMensagem);
+        });
+
+        window.parent.postMessage("MF1 está pronto!", "*");
+    </script>
+</body>
+</html>
